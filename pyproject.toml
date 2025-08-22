@@ -1,0 +1,15 @@
+[project]
+name = "polymarket-crypto-expiry-prediction"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pytz>=2025.2",
+    "requests>=2.31.0",
+    "ruff>=0.12.10",
+    "schedule>=1.2.0",
+]
+[tool.ruff]
+line-length = 100
+lint.select = ["E", "F", "I"]
