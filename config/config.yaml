@@ -1,0 +1,21 @@
+polymarket:
+  assets:
+    - "bitcoin"
+    - "ethereum"
+    - "solana"
+  gamma_api_base_url: "https://gamma-api.polymarket.com"
+  clob_base_url: "https://clob.polymarket.com"
+  base_url: "https://polymarket.com/api"
+
+binance:
+  base_url: "https://api.binance.com"
+  candle_limit: 500
+  candle_interval: "1s"
+  assets:
+    - "BTCUSDT"
+    - "ETHUSDT"
+    - "SOLUSDT"
+
+scheduling:
+  market_monitor_update_interval: 3 # seconds
+  price_feed_update_interval: 1 # seconds
