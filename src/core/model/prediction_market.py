@@ -2,6 +2,11 @@ from dataclasses import dataclass
 from typing import Optional
 
 
+class UpDown:
+    UP = "UP"
+    DOWN = "DOWN"
+
+
 @dataclass
 class PredictionMarket:
     id: str
@@ -36,3 +41,9 @@ class OrderBook:
         min_ask_price = min(ask.price for ask in self.asks) if self.asks else None
         self.best_ask_price = min_ask_price
         self.best_bid_price = max_bid_price
+
+
+@dataclass
+class OrderBookPair:
+    up: OrderBook
+    down: OrderBook

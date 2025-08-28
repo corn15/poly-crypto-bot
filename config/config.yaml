@@ -1,0 +1,19 @@
+market_monitor:
+  assets:
+    - "bitcoin"
+    - "ethereum"
+    - "solana"
+  initialization_delay_seconds: 60
+
+price_feed:
+  provider: "binance" # or your preferred provider
+  candle_limit: 500
+  candle_interval: "1s"
+  assets:
+    - "BTCUSDT"
+    - "ETHUSDT"
+    - "SOLUSDT"
+
+scheduling:
+  market_monitor_update_interval: 3 # 5 minutes in seconds
+  price_feed_update_interval: 1 # 1 minute in seconds
