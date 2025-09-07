@@ -92,3 +92,40 @@ class CryptoPredictor:
 
         avg_prob = float(np.mean(predictions))
         return avg_prob
+
+    def predict_single_model(self, df: pl.DataFrame, model_name: str) -> float:
+        """Return prediction from a specific model."""
+        if model_name not in self.models:
+            raise ValueError(
+                f"Model '{model_name}' not found. Available models: {list(self.models.keys())}"
+            )
+
+        X = self.prepare_features(df)
+
+        if len(X) == 0:
+            raise ValueError("No valid features could be created from the input data")
+
+        # Use the last row (most recent data)
+        X_latest = X[-1:, :]
+
+        model = self.models[model_name]
+        prob = model.predict_proba(X_latest)[0, 1]  # Probability of class 1 (price up)
+
+        return float(prob)
+
+    def get_individual_predictions(self, df: pl.DataFrame) -> dict:
+        """Return predictions from all individual models."""
+        X = self.prepare_features(df)
+
+        if len(X) == 0:
+            raise ValueError("No valid features could be created from the input data")
+
+        # Use the last row (most recent data)
+        X_latest = X[-1:, :]
+
+        predictions = {}
+        for model_name, model in self.models.items():
+            prob = model.predict_proba(X_latest)[0, 1]  # Probability of class 1 (price up)
+            predictions[model_name] = float(prob)
+
+        return predictions
