@@ -1,7 +1,6 @@
 from typing import Dict
 
 from src.core.interface.exchange import IExchange
-from src.core.model.asset import Asset
 from src.core.model.price import Candle
 
 
@@ -22,8 +21,8 @@ class PriceFeedService:
 
         print(f"price:{self.price}")
 
-    def get_price(self, asset: Asset) -> float:
-        return self.price[asset.symbol]
+    def get_price(self, asset: str) -> float:
+        return self.price[asset]
 
-    def get_candle(self, asset: Asset) -> Candle:
-        return self.candles[asset.symbol]
+    def get_candle(self, asset: str) -> Candle:
+        return self.candles[asset]
