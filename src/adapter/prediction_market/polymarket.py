@@ -1,4 +1,5 @@
 import json
+import logging
 import time
 from datetime import datetime
 
@@ -9,6 +10,9 @@ from src.config.polymarket import PolymarketConfig
 from src.core.interface.prediction_market import IPredictionMarket
 from src.core.model.prediction_market import Order, OrderBook, PredictionMarket
 from src.utils.time import get_time_str
+
+# This will silence the INFO logs from httpx, including the request/response logs
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 
 class Polymarket(IPredictionMarket):
@@ -61,8 +65,8 @@ class Polymarket(IPredictionMarket):
                 data = response.json()
                 if not data:
                     return None
-                asks = [Order(ask["price"], ask["size"]) for ask in data["asks"]]
-                bids = [Order(bid["price"], bid["size"]) for bid in data["bids"]]
+                asks = [Order(float(ask["price"]), float(ask["size"])) for ask in data["asks"]]
+                bids = [Order(float(bid["price"]), float(bid["size"])) for bid in data["bids"]]
                 order_book = OrderBook(
                     data["market"],
                     data["asset_id"],

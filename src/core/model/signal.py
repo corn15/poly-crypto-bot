@@ -1,7 +1,17 @@
 import enum
+from dataclasses import dataclass
+from typing import Optional
 
 
-class Signal(enum.Enum):
-    BUY = 1
-    SELL = 2
-    WAIT = 3
+class MarketSignal(enum.Enum):
+    NEUTRAL = "NEUTRAL"
+    BULLISH = "BULLISH"
+    BEARISH = "BEARISH"
+
+
+@dataclass
+class SignalResult:
+    signal: Optional[MarketSignal]
+    probability: Optional[float]
+    reasoning: str
+    error: Optional[str] = None

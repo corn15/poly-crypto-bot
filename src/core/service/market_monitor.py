@@ -48,3 +48,6 @@ class MarketMonitorService:
             return self.order_book_pairs[symbol].down.best_ask_price
         else:
             raise ValueError("Invalid up_or_down value")
+
+    def get_assets(self) -> list[str]:
+        return list(self.order_book_pairs.keys())

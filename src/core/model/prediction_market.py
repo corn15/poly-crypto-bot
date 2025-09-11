@@ -1,8 +1,9 @@
 from dataclasses import dataclass
+from enum import Enum
 from typing import Optional
 
 
-class UpDown:
+class UpDown(str, Enum):
     UP = "UP"
     DOWN = "DOWN"
 

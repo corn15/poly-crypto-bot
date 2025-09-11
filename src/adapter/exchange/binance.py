@@ -1,8 +1,13 @@
+import logging
+
 import httpx
 
 from src.config.binance import BinanceConfig
 from src.core.interface.exchange import IExchange
 from src.core.model.price import Candle
+
+# This will silence the INFO logs from httpx, including the request/response logs
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 
 class Binance(IExchange):
