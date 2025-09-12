@@ -1,0 +1,25 @@
+# Example configuration for Polymarket Crypto Expiry Prediction
+
+# Database configuration
+database:
+  db_path: "data/trading.db"
+
+# Binance exchange configuration
+binance:
+  api_key: "your_binance_api_key_here"
+  api_secret: "your_binance_api_secret_here"
+  base_url: "https://api.binance.com"
+  testnet: false
+
+# Polymarket prediction market configuration
+polymarket:
+  api_base_url: "https://clob.polymarket.com"
+  chain_id: 137  # Polygon mainnet
+  private_key: "your_private_key_here"
+  enable_trading: false  # Set to true to enable actual trading
+
+# Scheduling configuration (in seconds)
+scheduling:
+  market_monitor_update_interval: 30
+  price_feed_update_interval: 15
+  signal_generation_interval: 15

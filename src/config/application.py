@@ -9,10 +9,16 @@ from src.config.scheduling import SchedulingConfig
 
 
 @dataclass
+class DatabaseConfig:
+    db_path: str = "data/trading.db"
+
+
+@dataclass
 class ApplicationConfig:
     binance: BinanceConfig = field(default_factory=BinanceConfig)
     polymarket: PolymarketConfig = field(default_factory=PolymarketConfig)
     scheduling: SchedulingConfig = field(default_factory=SchedulingConfig)
+    database: DatabaseConfig = field(default_factory=DatabaseConfig)
 
     @classmethod
     def load(cls, config_path: Path) -> "ApplicationConfig":
@@ -30,6 +36,8 @@ class ApplicationConfig:
                     config.binance = BinanceConfig(**data["binance"])
                 if "scheduling" in data:
                     config.scheduling = SchedulingConfig(**data["scheduling"])
+                if "database" in data:
+                    config.database = DatabaseConfig(**data["database"])
             return config
         except Exception as e:
             raise ValueError(f"Failed to load config file: {e}")

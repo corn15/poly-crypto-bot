@@ -8,6 +8,7 @@ from src.config.application import ApplicationConfig
 from src.core.service.market_monitor import MarketMonitorService
 from src.core.service.price_feed import PriceFeedService
 from src.core.service.strategy import StrategyService
+from src.core.service.trading import TradingService
 from src.prediction.predictor import CryptoPredictor
 
 
@@ -26,6 +27,7 @@ def main():
     predictor = CryptoPredictor("models")
 
     # Initialize services
+    trading_service = TradingService(Path(config.database.db_path))
     price_feed_service = PriceFeedService(binance_price_provider)
     market_monitor_service = MarketMonitorService(market_data_client)
     strategy_service = StrategyService(market_monitor_service, price_feed_service, predictor)
