@@ -1,10 +1,11 @@
 # Cryptocurrency Hourly Price Direction Prediction
 
-A machine learning system that predicts the probability that the closing price of the current hour will be higher than its opening price, using 5-minute candlestick data from the past 3 hours.
+A complete machine learning and trading system that predicts cryptocurrency price direction and tracks trading performance with comprehensive position management and PnL calculation capabilities.
 
-## 🎯 Objective
+## 🎯 Objectives
 
-Predict the probability (ranging from 0 to 1) that the closing price of the current hour will be higher than its opening price, based on historical 5-minute candlestick data.
+1. **ML Prediction**: Predict the probability (0-1) that the closing price of the current hour will be higher than its opening price
+2. **Trading System**: Track all trades, manage positions, and calculate trading performance with signal-based decision making
 
 ## 📊 Data
 
@@ -48,6 +49,57 @@ The system generates 24 technical features:
 - `em5_ratio`: Current price / EMA-5
 - `em10_ratio`: Current price / EMA-10
 - `em20_ratio`: Current price / EMA-20
+
+## 📈 Trading System Features
+
+### Core Capabilities
+- **📊 Position Tracking**: Real-time position management with average cost basis calculation
+- **💰 PnL Calculation**: Both realized and unrealized PnL tracking with detailed breakdowns  
+- **📝 Trade Recording**: Complete trade history with ML signal metadata persistence
+- **🔄 Data Recovery**: Position validation and recovery from trade history
+- **💾 SQLite Storage**: Lightweight, file-based database with full ACID compliance
+- **🎯 Signal Integration**: Links trades to ML prediction signals for performance analysis
+
+### Key Components
+```
+Trading System Architecture:
+├── Trade Recording (with signal metadata)
+├── Position Management (average cost basis)  
+├── PnL Calculation (realized & unrealized)
+├── Data Validation & Recovery
+└── Performance Analytics
+```
+
+### Database Schema
+- **Trades Table**: Records every trade with timestamp, price, size, fees, and signal metadata
+- **Positions Table**: Maintains current position state with average cost basis
+- **Signal Metadata**: Links each trade to the ML prediction that triggered it
+
+### Usage Example
+```python
+from src.core.service.trading import TradingService
+from src.core.model.trade import TradeSide
+
+# Initialize trading service
+trading_service = TradingService(Path("data/trading.db"))
+
+# Record a trade with signal metadata
+trade = trading_service.record_trade(
+    symbol="BTCUSDT",
+    side=TradeSide.BUY, 
+    price=42000.0,
+    size=0.5,
+    fee=10.5,
+    timestamp=int(time.time() * 1000),
+    signal_result=ml_signal_result
+)
+
+# Check position and PnL
+position = trading_service.get_position("BTCUSDT")
+unrealized_pnl = trading_service.calculate_unrealized_pnl("BTCUSDT", current_price)
+```
+
+For detailed documentation, see: **[TRADING_SYSTEM.md](TRADING_SYSTEM.md)**
 - `em30_ratio`: Current price / EMA-30
 - `ema5_ema10_ratio`: EMA-5 / EMA-10
 - `ema5_ema20_ratio`: EMA-5 / EMA-20
@@ -147,9 +199,54 @@ predictor.print_predictions(predictions)
 
 # Get ensemble prediction
 ensemble = predictor.get_ensemble_prediction(predictions)
-print(f"Ensemble probability: {ensemble['probability']:.4f}")
+print(f"Ensemble prediction: {ensemble['probability']:.4f}")
 ```
 
+### Trading System Usage
+
+#### Basic Trade Recording
+```python
+from pathlib import Path
+from src.core.service.trading import TradingService
+from src.core.model.trade import TradeSide
+import time
+
+# Initialize trading service
+trading_service = TradingService(Path("data/trading.db"))
+
+# Record a buy trade
+trade = trading_service.record_trade(
+    symbol="BTCUSDT",
+    side=TradeSide.BUY,
+    price=42000.0,
+    size=0.5,
+    fee=10.5,
+    timestamp=int(time.time() * 1000)
+)
+
+# Check position
+position = trading_service.get_position("BTCUSDT")
+print(f"Position: {position.size} BTC @ ${position.average_price:.2f}")
+
+# Calculate unrealized PnL
+current_price = 45000.0
+pnl = trading_service.calculate_unrealized_pnl("BTCUSDT", current_price)
+print(f"Unrealized PnL: ${pnl:.2f}")
+```
+
+#### Running Examples
+```bash
+# Run comprehensive trading system demo
+python3 test_trading_system.py
+
+# Run simple trading example
+python3 simple_trading_example.py
+
+# Run signal-based trading integration
+python3 trading_integration_example.py
+```
+
+## ⚡ Quick Start
 ## 📁 Project Structure
 
 ```
